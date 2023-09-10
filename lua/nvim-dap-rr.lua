@@ -84,7 +84,11 @@ local registered_configs_names = {}
 -- generate helper command for when rr has reached the end of the program and dap immediately exits
 local M = {}
 M.reverse_nexti_nodap = function()
-  vim.cmd('!gdb -q -ex "target remote '..rust_rr_config.miDebuggerServerAddress..'" -ex reverse-nexti -ex "set confirm off" -ex exit')
+    vim.ui.input({prompt='Enter <address>:<port> of the rr replay session: '},
+        function(address_port)
+          vim.cmd('!gdb -q -ex "target remote '..address_port..'" -ex reverse-nexti -ex "set confirm off" -ex exit')
+        end
+    )
 end
 vim.cmd('command! ReverseNextiNoDAP lua require("nvim-dap-rr").reverse_nexti_nodap()')
 
