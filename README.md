@@ -76,7 +76,7 @@ The `get_rust_config` function works as the `get_config` one, but makes sure to 
 will allow you to see sources related to rustc (some basic stuff like Option and Result would raise 
 "Sourcefile Not Found" errors otherwise).
 
-The demo configuration can be found in my [dotfiles](https://github.com/jonboh/dotfiles/tree/main/.config/nvim/lua/jonbo/debugger)
+The demo configuration can be found in my [dotfiles](https://github.com/jonboh/dotfiles/tree/16e89dc50bb31f911a5636d5735f558f6d7c4583/.config/nvim/lua/jonbo/debugger)
 
 ## Debugger Configuration
 To change the debugger configuration you can use `get_config(debuggerOpts)`:
