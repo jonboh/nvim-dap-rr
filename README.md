@@ -19,6 +19,11 @@ Requirements:
 You don't need [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) to run nvim-dap-rr,
 but if you want a debugger UI it is a good default.
 
+**Lazy.nvim**:
+```lua
+    {"jonboh/nvim-dap-rr", dependencies = {"nvim-dap", "telescope.nvim"}},
+```
+
 ## Minimal Configuration
 ```lua
 local dap = require('dap')
