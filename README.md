@@ -3,6 +3,12 @@ An extension for [nvim-dap](https://github.com/mfussenegger/nvim-dap) to generat
 
 ![example](./assets/example.gif)
 
+The rr debugger allows you to record an execution and later replay it. In replay mode you
+get deterministic execution, and the ability to "time travel" in your debugging, going backwards
+and forwards tracking the state of your program.
+
+With this plugin you can connect to a replay session and debug it as any other DAP compatible debugger.
+
 ## Installation
 Requirements:
 - A reasonably modern neovim (tested on v0.9.2, but older versions should work as well)
