@@ -122,7 +122,7 @@ M.reverse_step_into = function()
       return
     end
     s:evaluate("-exec set exec-direction reverse")
-    dap.step_into({steppingGranularity="instruction"})
+    dap.step_into()
   end
 M.reverse_step_over_i = function()
     local s = require("dap").session()
