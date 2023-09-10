@@ -129,8 +129,11 @@ funcionality if the adapter is not based on gdb.
 When the replay session gets to the end of a recording the DAP will generally automatically close,
 not allowing you to go back. Running again a debugging session will immediately close the DAP
 session as it spawns (as it will detect that the program has terminated).
+
 You can fix this by telling the replay session to go back one instruction.
+
 The plugin includes a helper function `ReverseNextiNoDAP` for this purpose, it will ask you 
 the address and port of the debugging session (by default `127.0.0.1:50505`), 
 connect to it and rewind the replay session by one instruction.
+
 At this point you should be able to connect to replay session as usual.
