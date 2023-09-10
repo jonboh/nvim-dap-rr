@@ -1,7 +1,7 @@
 # nvim-dap-rr
 An extension for [nvim-dap](https://github.com/mfussenegger/nvim-dap) to generate ready to go rr dap configurations.
 
-![example](https://github.com/jonboh/nvim-dap-rr/assets/31407988/ec41a2ba-ff81-4813-a95c-86e018d53563)
+![example](./assets/example.gif)
 
 ## Installation
 Requirements:
