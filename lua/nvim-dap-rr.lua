@@ -60,7 +60,6 @@ local default_rr_config = {
     }
 
 local default_setup_opts = {
-    debuggerConfig = default_rr_config,
     mappings = {
         continue = "<F7>",
         step_over = "<F8>",
@@ -79,9 +78,8 @@ local default_setup_opts = {
     }
 }
 
-local rr_config = nil
-local rust_rr_config = nil
-
+-- used to control which sessions should trigger
+local registered_configs_names = {}
 
 -- generate helper command for when rr has reached the end of the program and dap immediately exits
 local M = {}
@@ -238,29 +236,29 @@ local action2command = function (action)
     end
 end
 
+local function contains(list, target)
+    for _, value in ipairs(list) do
+        if value == target then
+            return true
+        end
+    end
+    return false
+end
+
 function M.setup(opts)
     local dap = load_dap()
-    -- opts = vim.tbl_extend('keep', opts or {}, default_setup_opts)
-    -- for bind, key in opts["bindings"]
-    -- local dap = require('dap')
     local api = vim.api
     local keymap_restore = {}
     local buf_keymap_restore = {}
 
-    -- iterate through all mappings to check actions are valid
+    -- iterate mappings to check actions are valid
     for action, _ in pairs(opts.mappings) do
         action2command(action)
     end
 
-    opts = vim.tbl_extend('keep', opts or {}, default_setup_opts)
-    rr_config = opts.debuggerConfig
-
-    rust_rr_config = vim.deepcopy(rr_config)
-    rust_rr_config.miDebuggerPath = get_rust_gdb_path
-
     -- Set up mappings
     dap.listeners.after['event_initialized']['nvim-dap-rr'] = function(session, _)
-        if session.config.name == "rr" then
+        if contains(registered_configs_names, session.config.name) then
             for action, key in pairs(opts.mappings) do
               for _, buf in pairs(api.nvim_list_bufs()) do
                 local buffer_keymaps = api.nvim_buf_get_keymap(buf, 'n')
@@ -286,7 +284,7 @@ function M.setup(opts)
     end
 
     dap.listeners.after['event_terminated']['nvim-dap-rr'] = function(session, _)
-        if session.config.name == "rr" then
+        if contains(registered_configs_names, session.config.name) then
           for _, key in pairs(opts.mappings) do
               vim.keymap.del("n", key)
           end
@@ -310,11 +308,15 @@ function M.setup(opts)
 end
 
 -- Generates a config to add manually with dap.configurations.cpp = require("nvim-dap-rr").get_config()
-function M.get_config(opts)
-    return default_rr_config
+function M.get_config(debuggerOpts)
+    local config = vim.tbl_extend('keep', debuggerOpts or {}, default_rr_config)
+    table.insert(registered_configs_names, config.name)
+    return config
 end
 
-function M.get_rust_config(opts)
+function M.get_rust_config(debuggerOpts)
+    local rust_rr_config = M.get_config(debuggerOpts)
+    rust_rr_config.miDebuggerPath = get_rust_gdb_path
     return rust_rr_config
 end
 
