@@ -14,7 +14,7 @@ Requirements:
 - A reasonably modern neovim (tested on v0.9.2, but older versions should work as well)
 - [rr](https://github.com/rr-debugger/rr) (tested on 5.6.0)
 - [cpptools](https://github.com/Microsoft/vscode-cpptools)
-    - [mason.nvim](https://github.com/williamboman/mason.nvim) makes the installation trivial (see [minimal configuration]())
+    - [mason.nvim](https://github.com/williamboman/mason.nvim) makes the installation trivial (see [minimal configuration](#minimal-configuration))
 
 You don't need [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) to run nvim-dap-rr,
 but if you want a debugger UI it is a good default.
