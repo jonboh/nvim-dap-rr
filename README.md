@@ -13,6 +13,7 @@ With this plugin you can connect to a replay session and debug it as any other D
 Requirements:
 - A reasonably modern neovim (tested on v0.9.2, but older versions should work as well)
 - [rr](https://github.com/rr-debugger/rr) (tested on 5.6.0)
+- [fd](https://github.com/sharkdp/fd)
 - [cpptools](https://github.com/Microsoft/vscode-cpptools)
     - [mason.nvim](https://github.com/williamboman/mason.nvim) makes the installation trivial (see [minimal configuration](#minimal-configuration))
 
