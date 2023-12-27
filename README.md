@@ -13,9 +13,12 @@ With this plugin you can connect to a replay session and debug it as any other D
 Requirements:
 - A reasonably modern neovim (tested on v0.9.2, but older versions should work as well)
 - [rr](https://github.com/rr-debugger/rr) (tested on 5.6.0)
-- [fd](https://github.com/sharkdp/fd)
 - [cpptools](https://github.com/Microsoft/vscode-cpptools)
     - [mason.nvim](https://github.com/williamboman/mason.nvim) makes the installation trivial (see [minimal configuration](#minimal-configuration))
+
+You can skip these next dependencies if you provide an alternative program picker, see [Debugger Configuration](#debugger-configuration) but they are required by default:
+- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+- [fd](https://github.com/sharkdp/fd)
 
 You don't need [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) to run nvim-dap-rr,
 but if you want a debugger UI it is a good default.
@@ -73,19 +76,19 @@ rr_dap.setup({
 dap.configurations.rust = { rr_dap.get_rust_config() }
 dap.configurations.cpp = { rr_dap.get_config() }
 ```
-To append the rr configuration to an already existing `dap.configurations.<lang>` table substitute 
+To append the rr configuration to an already existing `dap.configurations.<lang>` table substitute
 ```lua
 dap.configurations.rust = { rr_dap.get_rust_config() }
 dap.configurations.cpp = { rr_dap.get_config() }
 ```
-for 
+for
 ```lua
 table.insert(dap.configurations.rust, rr_dap.get_rust_config())
 table.insert(dap.configurations.cpp, rr_dap.get_config())
 ```
 
 The `get_rust_config` function works as the `get_config` one, but makes sure to source the `rust-gdb`, which
-will allow you to see sources related to rustc (some basic stuff like Option and Result would raise 
+will allow you to see sources related to rustc (some basic stuff like Option and Result would raise
 "Sourcefile Not Found" errors otherwise).
 
 The demo configuration can be found in my [dotfiles](https://github.com/jonboh/dotfiles/tree/16e89dc50bb31f911a5636d5735f558f6d7c4583/.config/nvim/lua/jonbo/debugger)
@@ -150,8 +153,8 @@ session as it spawns (as it will detect that the program has terminated).
 
 You can fix this by telling the replay session to go back one instruction.
 
-The plugin includes a helper function `ReverseNextiNoDAP` for this purpose, it will ask you 
-the address and port of the debugging session (by default `127.0.0.1:50505`), 
+The plugin includes a helper function `ReverseNextiNoDAP` for this purpose, it will ask you
+the address and port of the debugging session (by default `127.0.0.1:50505`),
 connect to it and rewind the replay session by one instruction.
 
 At this point you should be able to connect to the replay session as usual.
