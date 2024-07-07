@@ -6,32 +6,43 @@ local get_rust_gdb_path = function()
     return rustgdb
 end
 
-local pickers = require("telescope.pickers")
-local finders = require("telescope.finders")
-local conf = require("telescope.config").values
-local actions = require("telescope.actions")
-local action_state = require("telescope.actions.state")
+local has_telescope, telescope = pcall(require, "telescope")
 
-local find_program = function()
-      return coroutine.create(function(coro)
-        local opts = {}
-        pickers
-          .new(opts, {
-            prompt_title = "Path to executable",
-            finder = finders.new_oneshot_job({ "fd", "--hidden", "--exclude", ".git", "--no-ignore", "--type", "x" }, {}),
-            sorter = conf.generic_sorter(opts),
-            attach_mappings = function(buffer_number)
-              actions.select_default:replace(function()
-                actions.close(buffer_number)
-                coroutine.resume(coro, action_state.get_selected_entry()[1])
-              end)
-              return true
-            end,
-          })
-          :find()
-      end)
+local find_program
+if has_telescope then
+    local pickers = require("telescope.pickers")
+    local finders = require("telescope.finders")
+    local conf = require("telescope.config").values
+    local actions = require("telescope.actions")
+    local action_state = require("telescope.actions.state")
+
+    find_program = function()
+        return coroutine.create(function(coro)
+            local opts = {}
+            pickers
+                .new(opts, {
+                    prompt_title = "Path to executable",
+                    finder = finders.new_oneshot_job(
+                        { "fd", "--hidden", "--exclude", ".git", "--no-ignore", "--type", "x" },
+                        {}
+                    ),
+                    sorter = conf.generic_sorter(opts),
+                    attach_mappings = function(buffer_number)
+                        actions.select_default:replace(function()
+                            actions.close(buffer_number)
+                            coroutine.resume(coro, action_state.get_selected_entry()[1])
+                        end)
+                        return true
+                    end,
+                })
+                :find()
+        end)
     end
-
+else
+    find_program = function()
+        return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+    end
+end
 
 local default_rr_config = {
         name= "rr",
