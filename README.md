@@ -135,6 +135,8 @@ local default_rr_config = {
         },
     }
 ```
+The `program` entry expects a function that will return the program that the debugger should run.
+You can learn more about these options in the [nvim-dap](https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-vscode-cpptools) documentation.
 **Warning:**
 The plugin uses the name of the configuration to setup the mappings of its dap functions.
 You are not supposed to change the name of a config once it is returned to you.
