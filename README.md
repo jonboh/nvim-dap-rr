@@ -28,6 +28,8 @@ but if you want a debugger UI it is a good default.
     {"jonboh/nvim-dap-rr", dependencies = {"nvim-dap", "telescope.nvim"}},
 ```
 
+NOTE: remember that you need to provide an `rr` session to which dap will connect. You can see an example of how to do this [here](https://jonboh.dev/posts/rr/).
+
 ## Minimal Configuration
 ```lua
 local dap = require('dap')
