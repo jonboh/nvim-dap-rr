@@ -269,16 +269,17 @@ function M.setup(opts)
   local api = vim.api
   local keymap_restore = {}
   local buf_keymap_restore = {}
+  local mappings = opts.mappings or {}
 
   -- iterate mappings to check actions are valid
-  for action, _ in pairs(opts.mappings) do
+  for action, _ in pairs(mappings) do
     action2command(action)
   end
 
   -- Set up mappings
   dap.listeners.after["event_initialized"]["nvim-dap-rr"] = function(session, _)
     if contains(registered_configs_names, session.config.name) then
-      for action, key in pairs(opts.mappings) do
+      for action, key in pairs(mappings) do
         for _, buf in pairs(api.nvim_list_bufs()) do
           local buffer_keymaps = api.nvim_buf_get_keymap(buf, "n")
           for _, keymap in pairs(buffer_keymaps) do
@@ -303,7 +304,7 @@ function M.setup(opts)
 
   dap.listeners.after["event_terminated"]["nvim-dap-rr"] = function(session, _)
     if contains(registered_configs_names, session.config.name) then
-      for _, key in pairs(opts.mappings) do
+      for _, key in pairs(mappings) do
         vim.keymap.del("n", key)
       end
 
